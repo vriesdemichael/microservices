@@ -9,13 +9,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 hyperlink = "*"
-pydantic = "^1.10.7"
-rfc3986 = "^2.0.0"
-frozendict = "^2.3.8"
-requests = "^2.30.0"
-types-requests = "^2.30.0.0"
-jsonpointer = "^2.3"
-
+pydantic = "*"
+rfc3986 = "*"
+requests = "*"
+types-requests = "*"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -37,6 +34,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 ignore_missing_imports = true
+exclude = ["tests/jsonschema", ".venv"]
 
 [tool.pytest.ini_options]
 log_format = "%(asctime)s %(levelname)s %(message)s"
@@ -44,7 +42,7 @@ log_date_format = "%H:%M:%S"
 log_cli = true
 log_cli_level = "DEBUG"
 log_level = "DEBUG"
-addopts="--cov --cov-report xml:cov.xml --no-summary --no-header"
+addopts = "--cov --cov-report xml:cov.xml --no-summary --no-header"
 
 
 [tool.isort]
@@ -76,32 +74,26 @@ exclude = '''
 
 [tool.coverage.run]
 parallel = true
-source = [
-    "src",
-    "tests",
-]
+source = ["src", "tests"]
 context = '${CONTEXT}'
 omit = []
 
 [tool.ruff]
 select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
 ]
 ignore = [
-    "E501",  # line too long, handled by black
+    "E501", # line too long, handled by black
     # "B008",  # do not perform function calls in argument defaults
-    "C901",  # too complex
+    "C901", # too complex
 ]
 fix = true
-exclude = [
-    ".venv",
-    "tests/json_schema_test_suite"
-]
+exclude = [".venv", "tests/json_schema_test_suite"]
 
 [tool.ruff.per-file-ignores]
 
