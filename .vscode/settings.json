@@ -16,5 +16,11 @@
         "**/cov.xml": true
     },
     "python.formatting.provider": "black",
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.ignorePatterns": [ 
+        ".venv/**/*.py",
+        "tests/json_schema_test_suite/**"
+    ]
+
+
 }
