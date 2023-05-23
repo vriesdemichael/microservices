@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ryanluker.vscode-coverage-gutters",
+        "ms-python.isort",
+        "littlefoxteam.vscode-python-test-adapter",
+        "hbenl.vscode-test-explorer",
+        "ms-vscode.test-adapter-converter",
+        "tamasfe.even-better-toml",
+        "njpwerner.autodocstring",
+	]
+}
