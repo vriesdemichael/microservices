@@ -14,20 +14,15 @@ def test_model_fields():
 #     schema = Draft4MetaSchema.parse_obj({"integer": {"type": "integer"}, "refToInteger": {"$ref": "#/integer"}})
 #     print(schema)
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_validate_WIP(patch_requests_to_localhost_remotes_server):
-    schema = {
-        "allOf": [
-            {"properties": {"foo": {"$ref": "#/definitions/int"}}},
-            {"additionalProperties": {"$ref": "#/definitions/int"}},
-        ],
-        "definitions": {"int": {"type": "integer"}},
-    }
-    data = {"foo": 1}
-    is_valid = True
+    schema = {'additionalProperties': False, 'properties': {'foo': {'$ref': '#'}}}
+    data = {'foo': {'bar': False}}
+    is_valid = False
 
     # Draft4MetaSchema.parse_obj({"definitions": {"foo": {"type": 1}}})
     parsed_schema = Draft4MetaSchema.parse_obj(schema)
+    print(parsed_schema)
     errors = validate(data, parsed_schema)
     if errors and is_valid:
         print(f"{is_valid=}")

@@ -29,14 +29,14 @@ def draft4_testsuite():
 
                 id = f"{relative_path}  | {test_object_description} | {test_description} "
                 # if "ecmascript" not in str(relative_path): # TODO later
-                if "optional" not in str(relative_path) and "" in id:
+                if "optional" not in str(relative_path) and "ref.json" in id:
 
                     yield pytest.param(test_object_schema, test_data, test_valid, id=id)
 
 
 argvalues = list(draft4_testsuite())
 
-@pytest.mark.skip
+# @pytest.mark.skip
 @pytest.mark.parametrize(argnames="schema, data, is_valid", argvalues=argvalues, )
 def testsuite(schema, data, is_valid: bool, patch_requests_to_localhost_remotes_server: None):
     # try:

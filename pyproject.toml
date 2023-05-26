@@ -42,7 +42,8 @@ log_date_format = "%H:%M:%S"
 log_cli = true
 log_cli_level = "DEBUG"
 log_level = "DEBUG"
-addopts = "--cov --cov-report xml:cov.xml --no-summary --no-header"
+# addopts = "--cov --cov-report xml:cov.xml --no-summary --no-header"
+addopts = "--cov --cov-report xml:cov.xml"
 
 
 [tool.isort]

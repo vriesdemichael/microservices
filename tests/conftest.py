@@ -22,8 +22,14 @@ def draf_4_meta_self() -> Draft4MetaSchema:
 
 
 @pytest.fixture()
-def patch_requests_to_localhost_remotes_server(monkeypatch: pytest.MonkeyPatch) -> Generator[TestClient, None, None]:
-    remotes_dir = Path(__file__).parent / "json_schema_test_suite" / "remotes"
+def remotes_dir():
+    return Path(__file__).parent / "json_schema_test_suite" / "remotes"
+
+
+@pytest.fixture()
+def patch_requests_to_localhost_remotes_server(
+    remotes_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> Generator[TestClient, None, None]:
     app = FastAPI()
     app.mount("/", StaticFiles(directory=remotes_dir))
     client = TestClient(app, base_url="http://localhost:1234")
@@ -31,8 +37,6 @@ def patch_requests_to_localhost_remotes_server(monkeypatch: pytest.MonkeyPatch) 
         client.timeout = Timeout(0.1)
         m.setattr("requests.get", client.get)
         yield client
-
-
 
 
 class SchemaTestSuiteFile(pydantic.BaseModel):

@@ -25,14 +25,6 @@ from rfc3986 import is_valid_uri  # TODO can this be regex too?logger.debug
 logger = logging.getLogger(__name__)
 
 
-def compare_floats(first: Number, second: Number, exclusive=False):
-    "True if first > second, False if first < second, false"
-    if exclusive:
-        if isclose(first, second):
-            return 0
-        else:
-            return 1 if first > second else -1
-
 
 class MultipleValidationErrors(ValueError):
     def __init__(self, *args, errors: dict[str, list[ValueError]], json_pointer: str):
@@ -90,13 +82,6 @@ def multipleOf(value: Number, multipleOf: Number):
     mod = float(value) / float(multipleOf) % 1
     if not almost_equal_floats(mod, 0.0) and not almost_equal_floats(mod, 1.0):
         raise ValueError(f"Value is not a multiple of {multipleOf} ({value=})")
-    # try:
-    #     division_result = value / multipleOf
-
-    #     if not isclose(division_result, round(division_result)):
-    #         raise ValueError(f"Value is not a multiple of {multipleOf} ({value=})")
-    # except OverflowError:
-    #     raise ValueError("Value divided by multipleOf leads to an inf result")
 
 
 def maximum(value: Number, maximum: Number, exclusiveMaximum=False):
@@ -459,7 +444,6 @@ def format(value: str, format):
 def resolve_metaschema(schema: Draft4MetaSchema, download_external: bool, json_pointer: str):
     if "http://json-schema.org/draft-04/schema" not in schema.schema_:
         metaschema = Draft4MetaSchema(ref_=schema.schema_)
-        metaschema.derefence(download_external)
     else:
         metaschema = Draft4MetaSchema()
     errors = validate(metaschema, schema)
@@ -484,17 +468,6 @@ def validate(instance: Any, schema: Draft4MetaSchema, ) -> dict[str, list[ValueE
 
     if schema.schema_ != unset_value:
         resolve_metaschema(schema, download_external, schema.json_pointer)
-
-    if schema.ref_ != unset_value:
-        logger.debug(f"doing deref at '{schema.json_pointer}' for '{schema.ref_}'")
-        with error_collector.at_pointer(schema.json_pointer):
-            schema.derefence(download_external)
-
-    for child_schema, pointer in schema.direct_child_schemas:
-        if child_schema.ref_ != unset_value:
-            logger.debug(f"Doing dereference for child schema at '{pointer}' for '{child_schema.ref_}'")
-            with error_collector.at_pointer(schema.json_pointer):
-                child_schema.derefence(download_external)
 
     if schema.type != unset_value:
         with error_collector.at_pointer(schema.json_pointer):
