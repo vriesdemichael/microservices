@@ -1,0 +1,50 @@
+from typing import Any, Tuple, TypedDict
+
+from dataformats.jsonschema.custom_types import (
+    SchemaArray,
+    SchemaDict,
+    SchemaType,
+    SimpleTypeString,
+)
+
+Draft4Dict = TypedDict(
+    "Draft4Dict",
+    {
+        "id": str,
+        "$schema": str,
+        "title": str,
+        "description": str | None,
+        "default": Any | None,
+        "multipleOf": float | int | None,
+        "maximum": int | float | None,
+        "exclusiveMaximum": bool | None,
+        "minimum": int | float | None,
+        "exclusiveMinimum": bool | None,
+        "maxLength": int | None,
+        "minLength": int | None,
+        "pattern": str | None,
+        "additionalItems": bool | SchemaType | None,
+        "items": SchemaArray | SchemaType | None,
+        "maxItems": int | None,
+        "minItems": int | None,
+        "uniqueItems": bool | None,
+        "maxProperties": int | None,
+        "minProperties": int | None,
+        "required": list[str] | None,
+        "additionalProperties": bool | SchemaType | None,
+        "definitions": SchemaDict | None,
+        "properties": SchemaDict | None,
+        "patternProperties": SchemaDict | None,
+        "dependencies": dict[str, SchemaType | list[str]] | None,
+        "enum": Tuple[Any, ...] | None,
+        "type": SimpleTypeString | list[SimpleTypeString] | None,
+        "format": str | None,
+        "allOf": SchemaArray | None,
+        "anyOf": SchemaArray | None,
+        "oneOf": SchemaArray | None,
+        "not": SchemaType | None,
+        "$ref": str | None,
+    },
+    total=False,
+)
+

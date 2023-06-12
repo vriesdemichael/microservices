@@ -20,6 +20,9 @@
     "python.linting.ignorePatterns": [ 
         ".venv/**/*.py",
         "tests/json_schema_test_suite/**"
+    ],
+    "python.analysis.ignore": [
+        "**/validations_mixin.py"
     ]
 
 

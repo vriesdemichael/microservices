@@ -9,10 +9,11 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 hyperlink = "*"
-pydantic = "*"
+pydantic = ">=2.0a1"
 rfc3986 = "*"
 requests = "*"
 types-requests = "*"
+starlette = "^0.27.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -22,7 +23,6 @@ pytest-cov = "*"
 Flake8-pyproject = "*"
 isort = "*"
 mypy = "*"
-fastapi = "^0.95.2"
 httpx = "^0.24.1"
 pytest-xdist = "^3.3.1"
 ruff = "^0.0.269"
@@ -40,8 +40,8 @@ exclude = ["tests/jsonschema", ".venv"]
 log_format = "%(asctime)s %(levelname)s %(message)s"
 log_date_format = "%H:%M:%S"
 log_cli = true
-log_cli_level = "DEBUG"
-log_level = "DEBUG"
+log_cli_level = "INFO"
+log_level = "INFO"
 # addopts = "--cov --cov-report xml:cov.xml --no-summary --no-header"
 addopts = "--cov --cov-report xml:cov.xml"
 

@@ -2,8 +2,11 @@ import json
 from pathlib import Path
 
 import pytest
-from dataformats.jsonschema.model import Draft4MetaSchema
-from dataformats.jsonschema.validations import validate
+
+# from dataformats.jsonschema.model import Draft4MetaSchema
+# from dataformats.jsonschema.model_fields_mixin import Draft4Dict
+# from dataformats.jsonschema.validations import validate
+from dataformats.jsonschema.mixins.validations_mixin import Draft4Validator
 
 
 def draft4_testsuite():
@@ -29,29 +32,33 @@ def draft4_testsuite():
 
                 id = f"{relative_path}  | {test_object_description} | {test_description} "
                 # if "ecmascript" not in str(relative_path): # TODO later
-                if "optional" not in str(relative_path) and "ref.json" in id:
+                if "optional" not in str(relative_path) and ("ref.json" in id):
 
                     yield pytest.param(test_object_schema, test_data, test_valid, id=id)
 
 
 argvalues = list(draft4_testsuite())
 
-# @pytest.mark.skip
+
+
 @pytest.mark.parametrize(argnames="schema, data, is_valid", argvalues=argvalues, )
 def testsuite(schema, data, is_valid: bool, patch_requests_to_localhost_remotes_server: None):
     # try:
-    parsed_schema = Draft4MetaSchema.parse_obj(schema)
+    validator = Draft4Validator(**schema)
     # except Exception as e:
 
-
-    errors = validate(instance=data, schema=parsed_schema)
+    errors = validator.validate(instance=data)
+    # errors = validate(instance=data, schema=parsed_schema)
     has_errors = bool(errors)
 
     if is_valid:
         pass
         if has_errors:
-            # raise ValueError(errors)
+            for key, values in errors.items():
+                for val in values:
+                    print(f"{key}: {val} {val.__notes__ if hasattr(val, '__notes__') else ''}")
             print(errors)
+            print(validator)
             assert "false_negative" == True
         else:
             # raise ValueError("True positive")
@@ -75,4 +82,3 @@ def testsuite(schema, data, is_valid: bool, patch_requests_to_localhost_remotes_
     # # assert not has_errors == is_valid
 
 
-    # TODO build validation method :)
